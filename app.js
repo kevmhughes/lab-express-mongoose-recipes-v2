@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 const logger = require("morgan");
 const Recipe = require('./models/Recipe.model.js');
+
 
 const app = express();
 
@@ -12,7 +14,7 @@ app.use(express.json());
 const mongoose = require("mongoose");
 
 // DATABASE CONNECTION
-const MONGODB_URI = "mongodb+srv://kevhughes24:kevhughes24@cluster0.qjzwuwk.mongodb.net/express-mongoose-recipes-dev";
+const MONGODB_URI = process.env.MONGO_URI;
 
 async function connectToDatabase() {
   try {
