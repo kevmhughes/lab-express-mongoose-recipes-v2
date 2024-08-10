@@ -11,24 +11,23 @@ app.use(express.json());
 
 const mongoose = require("mongoose");
 
-// Iteration 1 - Connect to MongoDB
 // DATABASE CONNECTION
 const MONGODB_URI = "mongodb+srv://kevhughes24:kevhughes24@cluster0.qjzwuwk.mongodb.net/express-mongoose-recipes-dev";
 
-mongoose
-  .connect(MONGODB_URI)
-  .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
-  .catch((err) => console.error("Error connecting to mongo", err));
+async function connectToDatabase() {
+  try {
+    const connection = await mongoose.connect(MONGODB_URI);
+    console.log(`Connected to Mongo! Database name: "${connection.connections[0].name}"`);
+  } catch (err) {
+    console.error("Error connecting to mongo", err);
+  }
+}
 
-// ROUTES
-//  GET  / route - This is just an example route
-app.get('/', (req, res) => {
-    res.send("<h1>LAB | Express Mongoose Recipes</h1>");
-});
+// Call the async function to establish the connection
+connectToDatabase();
 
 
-//  Iteration 3 - Create a Recipe route
-//  POST  /recipes route
+//  POST one recipe to the DB
 app.post('/recipes', async  (req, res) => {
 
     try {
@@ -68,8 +67,7 @@ app.post('/recipes', async  (req, res) => {
 
 });
 
-//  Iteration 4 - Get All Recipes
-//  GET  /recipes route
+//  GET all recipes 
 app.get('/recipes', async (req, res) => {
     try {
         const allRecipes = await Recipe.find({}) 
@@ -87,9 +85,8 @@ app.get('/recipes', async (req, res) => {
 
 });
 
-//  Iteration 5 - Get a Single Recipe
-//  GET  /recipes/:id route
 
+//  GET one recipe by id 
 app.get('/recipes/:_id', async (req, res) => {
     try {
         const singleRecipe = await Recipe.findOne({ _id: req.params._id }) 
@@ -105,9 +102,8 @@ app.get('/recipes/:_id', async (req, res) => {
     }
 });
 
-//  Iteration 6 - Update a Single Recipe
-//  PUT  /recipes/:id route
 
+//  PUT - Update one recipe
 app.put('/recipes/:_id', async (req, res) => {
     try {
         await Recipe.findOneAndUpdate({ _id: req.params._id }, req.body, {new: true}) 
@@ -123,8 +119,7 @@ app.put('/recipes/:_id', async (req, res) => {
 });
 
 
-//  Iteration 7 - Delete a Single Recipe
-//  DELETE  /recipes/:id route
+//  DELETE one recipe
 app.delete('/recipes/:_id', async (req, res) => {
     try {
         await Recipe.deleteOne({ _id: req.params._id }) 
