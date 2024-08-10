@@ -55,7 +55,7 @@ app.post('/recipes', async  (req, res) => {
         })
         
         res.status(201).json({
-            message: "recipe created successfully",
+            message: "Recipe created successfully",
             item: newRecipe,
         });
     } catch (error) {
@@ -91,7 +91,7 @@ app.get('/recipes/:_id', async (req, res) => {
     try {
         const singleRecipe = await Recipe.findOne({ _id: req.params._id }) 
         res.status(200).json({
-            message: "that recipe has been found",
+            message: "That recipe has been found",
             data: singleRecipe 
         });
     } catch (error) {
@@ -108,7 +108,7 @@ app.put('/recipes/:_id', async (req, res) => {
     try {
         await Recipe.findOneAndUpdate({ _id: req.params._id }, req.body, {new: true}) 
         res.status(200).json({
-            message: "that recipe has been updated",
+            message: "That recipe has been updated",
         });
     } catch (error) {
         res.status(500).json({
@@ -124,7 +124,7 @@ app.delete('/recipes/:_id', async (req, res) => {
     try {
         await Recipe.deleteOne({ _id: req.params._id }) 
         res.status(200).json({
-            message: "that recipe has been deleted successfully",
+            message: "That recipe has been deleted successfully",
         });
     } catch (error) {
         res.status(500).json({
